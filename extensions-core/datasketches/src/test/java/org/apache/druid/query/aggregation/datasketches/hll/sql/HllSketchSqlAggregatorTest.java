@@ -106,7 +106,7 @@ public class HllSketchSqlAggregatorTest extends BaseCalciteQueryTest
   ) throws IOException
   {
     HllSketchModule.registerSerde();
-   te final QueryableIndex index = IndexBuilder.create()
+    final QueryableIndex index = IndexBuilder.create()
                                              .tmpDir(temporaryFolder.newFolder())
                                              .segmentWriteOutMediumFactory(OffHeapMemorySegmentWriteOutMediumFactory.instance())
                                              .schema(

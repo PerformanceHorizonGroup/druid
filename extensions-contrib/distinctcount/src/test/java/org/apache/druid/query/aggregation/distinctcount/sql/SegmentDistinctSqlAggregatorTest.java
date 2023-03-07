@@ -19,10 +19,8 @@
 
 package org.apache.druid.query.aggregation.distinctcount.sql;
 
-import com.fasterxml.jackson.databind.Module;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
+import org.apache.druid.guice.DruidInjectorBuilder;
 import org.apache.druid.java.util.common.granularity.Granularities;
 import org.apache.druid.query.Druids;
 import org.apache.druid.query.aggregation.FilteredAggregatorFactory;
@@ -35,26 +33,18 @@ import org.apache.druid.segment.column.ColumnType;
 import org.apache.druid.segment.virtual.ExpressionVirtualColumn;
 import org.apache.druid.sql.calcite.BaseCalciteQueryTest;
 import org.apache.druid.sql.calcite.filtration.Filtration;
-import org.apache.druid.sql.calcite.planner.DruidOperatorTable;
 import org.apache.druid.sql.calcite.util.CalciteTests;
 import org.junit.Test;
 
 public class SegmentDistinctSqlAggregatorTest extends BaseCalciteQueryTest
 {
 
-  @Override
-  public DruidOperatorTable createOperatorTable()
-  {
-    return new DruidOperatorTable(
-        ImmutableSet.of(new SegmentDistinctSqlAggregator()),
-        ImmutableSet.of()
-    );
-  }
 
   @Override
-  public Iterable<? extends Module> getJacksonModules()
+  public void configureGuice(DruidInjectorBuilder builder)
   {
-    return Iterables.concat(super.getJacksonModules(), new DistinctCountDruidModule().getJacksonModules());
+    super.configureGuice(builder);
+    builder.add(new DistinctCountDruidModule());
   }
 
   @Test
@@ -105,8 +95,4 @@ public class SegmentDistinctSqlAggregatorTest extends BaseCalciteQueryTest
         ImmutableList.of(new Long[]{6L, 2L, 3L})
     );
   }
-
-
 }
-
-// TEst Metric
